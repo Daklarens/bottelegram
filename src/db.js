@@ -16,71 +16,73 @@ const connect = async () =>{
     }
  }
 
- const Insert = async (coll,data) =>{
+ const insert = async (coll,data) =>{
     try {
         await MongoDBclient.connect()
-        console.log("Успешно подключились к базе данных")
+        console.log("Подключение для добавления данных")
  
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
         await employees.insertOne(data)
  
         await MongoDBclient.close()
-        console.log("Закрыли подключение")
+        console.log("Данные внесены! Отключение от базы")
+        return true
     } catch (e) {
         console.log(e)
     }
  }
 
- const InsertAll = async (coll,data) =>{
+ const insertAll = async (coll,data) =>{
     try {
         await MongoDBclient.connect()
-        console.log("Успешно подключились к базе данных")
+        console.log("Подключение для внесения нескольких данных")
  
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
         await employees.insertMany(data)
  
         await MongoDBclient.close()
-        console.log("Закрыли подключение")
+        console.log("Данные внесены! Отключение от базы")
     } catch (e) {
         console.log(e)
     }
  }
  
- const Count = async (coll) =>{
+ const count = async (coll,data) =>{
     try {
         await MongoDBclient.connect()
-        console.log("Успешно подключились к базе данных")
+        console.log("Подключения для уточения количества")
  
-        const AllDocuments = await MongoDBclient.db(process.env.NAMEDB).collection(coll).find().toArray()
+        const AllDocuments = await MongoDBclient.db(process.env.NAMEDB).collection(coll).find(data).toArray()
         console.log("Количество документов в базе данных:", AllDocuments.length)
  
         await MongoDBclient.close()
-        console.log("Закрыли подключение")
+        console.log("Отключились")
+        return AllDocuments.length
     } catch (e) {
         console.log(e)
     }
  }
 
- const Find = async (coll,data) =>{
+ const find = async (coll,data) =>{
 
     try {
         await MongoDBclient.connect()
-        console.log("Успешно подключились к базе данных")
+        console.log("Подключение для поиска по базе")
  
         const AllDocuments = await MongoDBclient.db(process.env.NAMEDB).collection(coll).find(data).toArray()
-        console.log(AllDocuments)
+        //console.log(AllDocuments)
  
         await MongoDBclient.close()
-        console.log("Закрыли подключение")
+        return AllDocuments
     } catch (e) {
         console.log(e)
     }
  }
 
- const Update = async (coll,data,newdata) =>{
+ const update = async (coll,data,newdata) =>{
     try {
         await MongoDBclient.connect()
-        console.log("Успешно подключились к базе данных")
+        console.log("Подключение для обновления данных")
  
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
         await employees.findOneAndUpdate(data , newdata)
@@ -92,6 +94,4 @@ const connect = async () =>{
     }
  }
 
- Insert()
- 
- connect()
+module.exports = {connect, insert, insertAll, count, find, update}

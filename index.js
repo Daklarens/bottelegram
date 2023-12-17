@@ -1,79 +1,59 @@
 const TeleBot = require('telebot');
 require('dotenv').config()
+const db = require('./src/db')
+const bt = require('./src/buttons')
 
 const bot = new TeleBot({
     token: process.env.TOKEN,
     usePlugins: ['askUser']
 });
-
-const users = [];
-const korzina = {text:'Добавить в карзину', call:'korzina_add'};
-
-const helloText = "Добро пожаловать в наш бот по вышивке изображений на одежде! 🧵👕\nМы рады видеть вас здесь. Наш бот готов помочь вам с оформлением уникальной вышивки на вашей одежде. Просто расскажите нам, что вы хотели бы видеть, и мы сделаем все возможное, чтобы сделать вашу одежду особенной и стильной.\nЕсли у вас есть какие-либо вопросы или специальные запросы, не стесняйтесь сообщить нам. Удачи в создании вашего уникального стиля! 💼🧵"
-
-const replyMarkup_menu = bot.inlineKeyboard([
-    [
-        // First row with command callback button
-        bot.inlineButton('Каталог дизайнов', {callback: 'katalog'})
-    ],
-    [
-        // First row with command callback button
-        bot.inlineButton('Изделия', {callback: 'izdel'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('Сделай Сам!', {callback: 'create'})
-    ]
-]);
-const replyMarkup_katalog = bot.inlineKeyboard([
-    [
-        // First row with command callback button
-        bot.inlineButton('140X140', {callback: '140X140'})
-    ],
-    [
-        // First row with command callback button
-        bot.inlineButton('140X200', {callback: '140X200'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('200X200', {callback: '200X200'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('280X360', {callback: '280X360'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('<< Назад', {callback: 'menu'})
-    ]
-]);
-let replyMarkup_izdel = bot.inlineKeyboard([
-    [
-        // First row with command callback button
-        bot.inlineButton('<<<', {callback: 'back_tovar'}),
-        bot.inlineButton('>>>', {callback: 'next_tovar'})
-        
-    ],
-    [
-        // First row with command callback button
-        bot.inlineButton(`${korzina.text }`, {callback:korzina.call})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('Оформить заказ', {callback: 'payment'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('<< Назад', {callback: 'menu'})
-    ]
-]);
+/*
+bot.on('photo',async msg =>{
+    console.log(msg.photo)
+    console.log(msg.photo.length)
+    await db.insert('config',{name:'img_menu',fid:msg.photo[3].file_id,fUniqId:msg.photo[3].file_unique_id,w:msg.photo[3].width,h:msg.photo[3].height})
+})
+*/
+bot.on('/addAdminCode', async msg =>{
+    const code = msg.text.split(' ');
+    if(code[1] === process.env.PRIVATECOD){
+       const chek = await db.count('config',{uid:msg.from.id}) 
+       if(chek > 0 ){
+            return bot.sendMessage(msg.from.id,"Вы уже Администратор")
+       }else{
+        const ct =  await db.insert('config',{uid:msg.from.id,username:msg.from.username,admin_status:1})
+        if(ct === true){
+            const start_nastr = await db.count('config',{}) 
+            if(start_nastr === 1){
+                bot.sendMessage(msg.from.id,"Вы внесены в список администраторов")
+                return bot.sendMessage(msg.from.id,`Напишите в ответ на это сообщение приветствующий текст который бот в дальнейшем будет использовать`, {ask: 'hello_text'})
+            }else{
+               // return bot.sendMessage(msg.from.id,"Вы внесены в список администраторов")
+            }
+        }
+       }    
+    }
+})
 
 // On start command
 bot.on('/start', async msg => {
+    const hello = await db.find('config',{name:"hello_text"})
+    const button = await bt.menu(bot)
+    const photo = await db.find('config',{name:"img_menu"})
+    const photoArr = await [photo[0].fid,photo[0].fUniqId,photo[0].w,photo[0].h]
     // Send message with keyboard markup
-    return bot.sendMessage(msg.from.id, helloText, {parseMode: 'html', replyMarkup:replyMarkup_menu}).then(re => {newUser(re)})
+    /*
+    bot.sendPhoto(msg.from.id, { file_id: 'AgACAgIAAxkBAAIFwWV_CEM5KxcNv16vSqq_RPaoycAGAAIK0TEb3Bb4S9lUdLffJ5nHAQADAgADeAADMwQ'},{
+        file_id: 'AgACAgIAAxkBAAIFwWV_CEM5KxcNv16vSqq_RPaoycAGAAIK0TEb3Bb4S9lUdLffJ5nHAQADAgADeAADMwQ',
+    file_unique_id: 'AQADCtExG9wW-Et9',
+    file_size: 109968,
+    width: 681,
+    height: 800
+    });
+    */
+    return bot.sendPhoto(msg.from.id,photoArr , {caption:hello[0].text, parseMode: 'html', replyMarkup:button}).then(re => {})
 });
-
+/*
 bot.on('/hello', msg => {
     return bot.sendMessage(msg.from.id, 'Hello!');
 });
@@ -183,6 +163,15 @@ bot.on('ask.age', msg => {
 
 });
 */
+
+bot.on('ask.hello_text', async msg => {
+    const id = msg.from.id;
+    const text = String(msg.text)
+    await db.insert('config',{name:'hello_text',text});
+    // Ask user age
+    return bot.sendMessage(id, `Окей, вот несколько комманд для администратора :\n/addAdminItem - Добавить товар\n/addAdminUser - Добавить администратора(@username)\n/dellAdminUser - Забрать права администратора\n/dellAdminItem - Удалить товар\n\n Теперь напишите или нажмите на : /start`);
+
+});
 
 bot.on('ask.forma', msg => {
     const id = msg.from.id;
