@@ -18,6 +18,7 @@ class bodyService {
   // Pages
   async startPage (from,bot){
     const hello = await db.find('config',{name:"hello_text"})
+    console.log(from)
     const button = await bt.menu(bot)
     const photo = await db.find('config',{name:"img_menu"})
     const photoArr = await [photo[0].fid,photo[0].fUniqId,photo[0].w,photo[0].h]
