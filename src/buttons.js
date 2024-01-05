@@ -9,45 +9,47 @@ const menu = async (bot)=>{ return bot.inlineKeyboard([
         bot.inlineButton('👕 Уход за изделиями', {callback: 'izdel'})
     ],
     [
-        bot.inlineButton('📧 Связь', {callback: 'izdel'})
+        bot.inlineButton('📧 Связь', {callback: 'call'})
     ],
 ])
 
 }
 
-const katalog = (bot)=>{bot.inlineKeyboard([
+const end = async (bot)=>{ return bot.inlineKeyboard([
     [
         // First row with command callback button
-        bot.inlineButton('140X140', {callback: '140X140'})
-    ],
-    [
-        // First row with command callback button
-        bot.inlineButton('140X200', {callback: '140X200'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('200X200', {callback: '200X200'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('280X360', {callback: '280X360'})
-    ],
-    [
-        // Second row with regular command button
-        bot.inlineButton('<< Назад', {callback: 'menu'})
+        bot.inlineButton('<< Вернуться в меню', {callback: 'menu'})
     ]
 ])}
 
-let items = (bot)=>{bot.inlineKeyboard([
+const pay = async (bot)=>{ return bot.inlineKeyboard([
     [
         // First row with command callback button
-        bot.inlineButton('<<<', {callback: 'back_tovar'}),
-        bot.inlineButton('>>>', {callback: 'next_tovar'})
+        bot.inlineButton('Оплатить', {pay: true})
+    ],
+    [
+        // First row with command callback button
+        bot.inlineButton('Изменить корзину', {callback: 'korzina'})
+    ],
+    [
+        // First row with command callback button
+        bot.inlineButton('Вернуться в меню', {callback: 'menu'})
+    ]
+])}
+
+let items = async (bot,id,count)=>{return bot.inlineKeyboard([
+    [
+        // First row with command callback button
+        bot.inlineButton('<<<', {callback: `tovar_set_${id-1}`}),
+        bot.inlineButton('>>>', {callback: `tovar_set_${id+1}`})
         
     ],
     [
         // First row with command callback button
-        bot.inlineButton(`${korzina.text }`, {callback:korzina.call})
+        bot.inlineButton(`🛒 ${count}`, {callback: `korzina`}),
+        bot.inlineButton(`➕`, {callback: `tovar_plus_${id}`}),
+        bot.inlineButton(`➖`, {callback: `tovar_minus_${id}`}),
+
     ],
     [
         // Second row with regular command button
@@ -55,8 +57,20 @@ let items = (bot)=>{bot.inlineKeyboard([
     ],
     [
         // Second row with regular command button
-        bot.inlineButton('<< Назад', {callback: 'menu'})
+        bot.inlineButton('<< В меню', {callback: 'menu'})
     ]
 ])}
 
-module.exports = {menu, katalog, items}
+
+let adminItems = async (bot)=>{return bot.inlineKeyboard([
+    [
+        // Second row with regular command button
+        bot.inlineButton('Изменить ✏️', {callback: 'editItem'})
+    ],
+    [
+        // Second row with regular command button
+        bot.inlineButton('Сохранить и выйти 📝', {callback: 'createMenu'})
+    ]
+])}
+
+module.exports = {menu, end, items, adminItems,pay}

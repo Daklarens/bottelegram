@@ -85,13 +85,30 @@ const connect = async () =>{
         console.log("Подключение для обновления данных")
  
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
-        await employees.findOneAndUpdate(data , newdata)
+        await employees.updateOne(data, {$set:newdata})
  
         await MongoDBclient.close()
         console.log("Закрыли подключение")
+        return true
     } catch (e) {
         console.log(e)
     }
  }
 
-module.exports = {connect, insert, insertAll, count, find, update}
+ const deleteOne = async (coll,data,newdata) =>{
+    try {
+        await MongoDBclient.connect()
+        console.log("Подключение для обновления данных")
+ 
+        const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
+        await employees.deleteOne(data, {newdata})
+ 
+        await MongoDBclient.close()
+        console.log("Закрыли подключение")
+        return true
+    } catch (e) {
+        console.log(e)
+    }
+ }
+
+module.exports = {connect, insert, insertAll, count, find, update, deleteOne}

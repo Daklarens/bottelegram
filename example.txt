@@ -1,0 +1,102 @@
+/*
+bot.on('photo',async msg =>{
+    console.log(msg.photo)
+    console.log(msg.photo.length)
+    await db.insert('config',{name:'img_menu',fid:msg.photo[3].file_id,fUniqId:msg.photo[3].file_unique_id,w:msg.photo[3].width,h:msg.photo[3].height})
+})
+*/
+
+
+ // Send message with keyboard markup
+    /*
+    bot.sendPhoto(msg.from.id, { file_id: 'AgACAgIAAxkBAAIFwWV_CEM5KxcNv16vSqq_RPaoycAGAAIK0TEb3Bb4S9lUdLffJ5nHAQADAgADeAADMwQ'},{
+        file_id: 'AgACAgIAAxkBAAIFwWV_CEM5KxcNv16vSqq_RPaoycAGAAIK0TEb3Bb4S9lUdLffJ5nHAQADAgADeAADMwQ',
+    file_unique_id: 'AQADCtExG9wW-Et9',
+    file_size: 109968,
+    width: 681,
+    height: 800
+    });
+    */
+////////////////////////////////////////
+
+    {
+  message_id: 1564,
+  from: {
+    id: 1506638744,
+    is_bot: false,
+    first_name: 'Dark',
+    last_name: 'Larens',
+    username: 'darklarens',
+    language_code: 'ru',
+    is_premium: true
+  },
+  chat: {
+    id: 1506638744,
+    first_name: 'Dark',
+    last_name: 'Larens',
+    username: 'darklarens',
+    type: 'private'
+  },
+  date: 1704107822,
+  text: '/start',
+  entities: [ { offset: 0, length: 6, type: 'bot_command' } ],
+  reply: {
+    text: [Function (anonymous)],
+    photo: [Function (anonymous)],
+    video: [Function (anonymous)],
+    videoNote: [Function (anonymous)],
+    file: [Function (anonymous)],
+    sticker: [Function (anonymous)],
+    audio: [Function (anonymous)],
+    voice: [Function (anonymous)],
+    game: [Function (anonymous)],
+    action: [Function (anonymous)],
+    location: [Function (anonymous)],
+    place: [Function: bound place]
+  }
+}
+
+
+
+//////////////PAYMENT
+
+case 'payment':
+            const inlineKeyboard = bot.inlineKeyboard([
+                [
+                    bot.inlineButton('Оплатить', {pay: true})
+                ]
+            ]); 
+        
+            return bot.sendInvoice(msg.from.id, {
+                title: 'Футболка с изображением - Персик',
+                description: 'Футболка с изображением персик - белого цвета! После оплаты с вами свяжется наш менеджер для уточнения всех деталей',
+                payload: 'telebot-test-invoice',
+                providerToken: '401643678:TEST:685469ce-2ca8-43c1-9f8d-d90f23956214',
+                startParameter: 'pay',
+                currency: 'RUB',
+                sendPhoneNumberToProvider: true,
+                photo: {url:'https://ae01.alicdn.com/kf/HTB1vrz.boz.BuNjt_j7q6x0nFXaS.jpg'},
+                prices: [
+                    {label: 'Футболка с изображением', amount: 250000},
+                    {label: 'Подарочный пакет', amount: 10000},
+                    {label: 'Доставка', amount: 100000}
+                ],  
+                replyMarkup: inlineKeyboard
+            }).then(data => {
+                console.log('OK', data);
+            }).catch(error => {
+                console.log('ERROR', error);
+            });
+        break;
+
+
+
+
+
+
+          console.log(msg)
+            const add = await serv.addItem(uid)
+            const otvet = await serv.startPage(msg.message.chat,bot)
+            const lastM = await serv.getLastMess(uid)
+            await bot.deleteMessage(uid,lastM)
+            return bot.sendPhoto(msg.from.id,otvet.photoArr , {caption:otvet.hello[0].text, parseMode: 'html', replyMarkup:otvet.button}).then(async re => { await serv.addUser(re.chat,re.message_id)})
