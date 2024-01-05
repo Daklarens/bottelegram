@@ -10,7 +10,7 @@ const bot = new TeleBot({
     usePlugins: ['askUser']
 });
 
-const magaz = {}
+console.log('dasldkasld ksal kdasl kdaslkda')
 
 //Основная
 bot.on('/start', async msg => {
