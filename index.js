@@ -14,7 +14,7 @@ const magaz = {}
 
 //Основная
 bot.on('/start', async msg => {
-    const otvet = await serv.startPage(msg.from,bot)
+    const otvet = await serv.startPage(msg.chat,bot)
     return bot.sendPhoto(msg.from.id,otvet.photoArr , {caption:otvet.hello[0].text, parseMode: 'html', replyMarkup:otvet.button}).then(async re => { await serv.addUser(re.chat,re.message_id)})
 });
 
