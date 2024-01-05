@@ -20,7 +20,8 @@ class bodyService {
     const hello = await db.find('config',{name:"hello_text"})
     console.log(from)
     const button = await bt.menu(bot)
-    const photo = await db.find('config',{name:"img_menu"})
+    const photo = await db.find('config')
+    console.log(photo)
     const photoArr = await [photo[0].fid,photo[0].fUniqId,photo[0].w,photo[0].h]
     const chek = await this.issUser(from.id)
     if(chek > 0){return {hello, button, photoArr}}else{return {hello, button, photoArr}}
