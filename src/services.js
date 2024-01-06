@@ -126,7 +126,7 @@ class bodyService {
     return count
   }
   async getCountItems (uid){
-    const count = await db.count('catalog')
+    const count = await db.count('catalog',{})
     return count
   }
 
@@ -174,14 +174,14 @@ class bodyService {
     const isss = this.issAdmin(uid)
     if(isss){
       const dell = await db.deleteOne('catalog',{id:itemId})
-      const counter = await this.getCountItems(uid)
-      return counter
+      const dellCount = await this.generateNameItems(uid)
+      return dellCount
+  
     }
   }
   //Генератор корзины
   async generateKorz(uid,bot){
     const plBt = await bt.pay(bot)
-    console.log('asdasdadadasdsda')
     const idder = await db.find('korzina',{uid})
     const count = idder.length-1
     const items = []
@@ -197,9 +197,11 @@ class bodyService {
   async generateNameItems(uid){
     const iss = await this.issAdmin(uid)
     const data = await db.find('catalog',{})
-    for(let i = 0; i <= data; i++){
-      const newName = await db.update('catalog',{fId:data[i].fId})
+    for(let i = 1; i < data.length; i++){
+      let z = i-1
+      const newName = await db.update('catalog',{fId:data[z].fId},{id:i})
     }
+    return await this.getCountItems
   }
   
 }
