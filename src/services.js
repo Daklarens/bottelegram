@@ -198,7 +198,7 @@ class bodyService {
     const iss = await this.issAdmin(uid)
     const data = await db.find('catalog',{})
     for(let i = 0; i <= data; i++){
-      const newName = db.update('catalog',{fId:data[i].fId})
+      const newName = await db.update('catalog',{fId:data[i].fId})
     }
   }
   
