@@ -175,6 +175,7 @@ class bodyService {
     if(isss){
       const dell = await db.deleteOne('catalog',{id:itemId})
       const dellCount = await this.generateNameItems(uid)
+      return dellCount
   
     }
   }
