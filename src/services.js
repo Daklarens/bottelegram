@@ -159,9 +159,19 @@ class bodyService {
 
   //dell
   async dellKorz (uid,itemId){
-    const dell = await db.deleteOne('korzina',{uid,itemId})
-    const count = await this.getCountKorz(uid)
-    return count
+    const isss = this.issAdmin(uid)
+    if(isss){
+      const dell = await db.deleteOne('korzina',{uid,itemId})
+      const count = await this.getCountKorz(uid)
+      return count
+    }
+  }
+  async dellItem (uid,itemId){
+    const isss = this.issAdmin(uid)
+    if(isss){
+      const dell = await db.deleteOne('catalog',itemId)
+      return dell
+    }
   }
   //Генератор корзины
   async generateKorz(uid,bot){

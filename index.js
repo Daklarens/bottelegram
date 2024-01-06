@@ -46,6 +46,15 @@ bot.on('/addItem', async msg =>{
         return bot.sendMessage(uid, `<b>Пришлите мне фотографию вашего товара!</b>`, {parseMode:'html',ask: 'addImg'});
     }
 })
+bot.on('/dellItem', async msg =>{
+    const splt = msg.text.split(' ')
+    const uid = msg.chat.id
+    const idItem = Number(splt[1])
+    const otvet = serv.dellItem(uid,idItem)
+    return bot.sendMessage(uid,otvet)
+
+
+})
 
 // callback
 bot.on('callbackQuery', async(msg) => {
