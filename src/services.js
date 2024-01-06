@@ -169,7 +169,7 @@ class bodyService {
   async dellItem (uid,itemId){
     const isss = this.issAdmin(uid)
     if(isss){
-      const dell = await db.deleteOne('catalog',itemId)
+      const dell = await db.deleteOne('catalog',{id:itemId})
       return dell
     }
   }
