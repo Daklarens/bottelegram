@@ -82,11 +82,17 @@ class bodyService {
     const upp = await db.update('users',{uid:idd}, {last_mess:id_mess})
     return upp
   }
-  async updateImg(id,fId,fUnicId,w,h){
+  async updateImg(id,fId,fUnicId,w,h,XXX){
     const chek = await this.issAdmin(id)
+
     if(chek){
-      const upp = await db.update('config',{uid:id},{fId,fUnicId,w,h})
-      return upp
+      if(XXX === 1){
+        const upp = await db.update('config',{name:"img_menu"},{fid:fId,fUnicId,w,h})
+        return upp
+      }else{
+        const upp = await db.update('config',{uid:id},{fId,fUnicId,w,h})
+        return upp
+      }
     }
   }
   async updateTite(id,title){

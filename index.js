@@ -135,13 +135,18 @@ bot.on('callbackQuery', async(msg) => {
 bot.on('photo', async msg => {
     const id = msg.chat.id;
     const las_mess = await serv.getLastMess(id)
-    console.log(msg)
-    const chek = await serv.updateImg(id,msg.photo[3].file_id,msg.photo[3].file_unique_id,msg.photo[3].width,msg.photo[3].height)
-    if(chek){
-        return bot.sendMessage(id, 'Теперь пришлите мне ЗАГОЛОВОК вашего товара',{ask:'addTitle'});
+    if(msg.caption){
+        const chek = await serv.updateImg(id,msg.photo[3].file_id,msg.photo[3].file_unique_id,msg.photo[3].width,msg.photo[3].height,1)
+        if(chek){
+            return bot.sendMessage(id, 'Готово');
+        }
     }else{
-        return bot.sendMessage(id, `Укажите ваш размер одежды (S,M,L..)`,{ask:'size'});        
-
+        const chek = await serv.updateImg(id,msg.photo[3].file_id,msg.photo[3].file_unique_id,msg.photo[3].width,msg.photo[3].height,0)
+        if(chek){
+            return bot.sendMessage(id, 'Теперь пришлите мне ЗАГОЛОВОК вашего товара',{ask:'addTitle'});
+        }else{
+            return bot.sendMessage(id, `Укажите ваш размер одежды (S,M,L..)`,{ask:'size'});        
+        }
     }
 });
 
