@@ -82,11 +82,16 @@ class bodyService {
   }
   async updateImg(id,fId,fUnicId,w,h,XXX){
     const chek = await this.issAdmin(id)
-
+    const countImg = await db.count('config',{name:"img_menu"})
     if(chek){
       if(XXX === 1){
-        const upp = await db.update('config',{name:"img_menu"},{fid:fId,fUniqId:fUnicId,w,h})
-        return upp
+        if(countImg === 1){
+          const upp = await db.update('config',{name:"img_menu"},{fid:fId,fUniqId:fUnicId,w,h})
+          return upp
+        }else{
+          const upp = await db.insert('config',{name:"img_menu",fid:fId,fUniqId:fUnicId,w,h})
+          return upp
+        }
       }else{
         const upp = await db.update('config',{uid:id},{fId,fUnicId,w,h})
         return upp
