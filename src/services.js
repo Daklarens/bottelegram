@@ -87,7 +87,7 @@ class bodyService {
 
     if(chek){
       if(XXX === 1){
-        const upp = await db.update('config',{name:"img_menu"},{fid:fId,fUnicId,w,h})
+        const upp = await db.update('config',{name:"img_menu"},{fid:fId,fUniqId,w,h})
         return upp
       }else{
         const upp = await db.update('config',{uid:id},{fId,fUnicId,w,h})
