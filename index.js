@@ -19,7 +19,8 @@ bot.on('/start', async msg => {
 //Команды Админа
 bot.on('/addAdminCode', async msg =>{
     const code = msg.text.split(' ');
-    const otvet = serv.addAdmin(msg.from,code[1])
+    const otvet = await serv.addAdmin(msg.from,code[1])
+    console.log(`server send: ${otvet}`)
     switch(otvet){
         case 0 :
             return bot.sendMessage(msg.chat.id,"Ошибка в обработке запроса, попробуйте позже")
