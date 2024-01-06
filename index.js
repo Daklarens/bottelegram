@@ -10,11 +10,8 @@ const bot = new TeleBot({
     usePlugins: ['askUser']
 });
 
-console.log('dasldkasld ksal kdasl kdaslkda')
-
 //Основная
 bot.on('/start', async msg => {
-    console.log('test')
     const otvet = await serv.startPage(msg.chat,bot)
     return bot.sendPhoto(msg.from.id,otvet.photoArr , {caption:otvet.hello[0].text, parseMode: 'html', replyMarkup:otvet.button}).then(async re => { await serv.addUser(re.chat,re.message_id)})
 });
@@ -138,6 +135,7 @@ bot.on('callbackQuery', async(msg) => {
 bot.on('photo', async msg => {
     const id = msg.chat.id;
     const las_mess = await serv.getLastMess(id)
+    console.log(msg)
     const chek = await serv.updateImg(id,msg.photo[3].file_id,msg.photo[3].file_unique_id,msg.photo[3].width,msg.photo[3].height)
     if(chek){
         return bot.sendMessage(id, 'Теперь пришлите мне ЗАГОЛОВОК вашего товара',{ask:'addTitle'});

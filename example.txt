@@ -100,3 +100,84 @@ case 'payment':
             const lastM = await serv.getLastMess(uid)
             await bot.deleteMessage(uid,lastM)
             return bot.sendPhoto(msg.from.id,otvet.photoArr , {caption:otvet.hello[0].text, parseMode: 'html', replyMarkup:otvet.button}).then(async re => { await serv.addUser(re.chat,re.message_id)})
+
+
+
+
+
+
+_id
+657efd3225e834a11b45d799
+uid
+1506638744
+username
+"darklarens"
+admin_status
+1
+fId
+"AgACAgIAAxkBAAIJ_GWX9rAovEZDH7fAXWPPkm2W7SnnAAL72zEbnyHBSGpPJAmqVH1PAQ…"
+fUnicId
+"AQAD-9sxG58hwUh-"
+h
+1280
+w
+1280
+title
+"RENGOKU"
+description
+"Дизайн: Rengoku 
+Размер: 80х100 мм"
+price
+1300
+_id
+657efd8125e834a11b45d79a
+name
+"hello_text"
+text
+"<b> Мастерская вышивки «Квадрат»</b>
+Наш БОТ поможет вам воплотить сам…"
+_id
+657f0843345289f46f0fa8ae
+name
+"img_menu"
+fid
+"AgACAgIAAxkBAAIFwWV_CEM5KxcNv16vSqq_RPaoycAGAAIK0TEb3Bb4S9lUdLffJ5nHAQ…"
+fUniqId
+"AQADCtExG9wW-Et9"
+w
+681
+h
+800
+_id
+6597efe666716a07d2295858
+uid
+235622945
+username
+"kksushahajkwns"
+admin_status
+1
+fid
+"0"
+fUniqId
+"0"
+w
+1280
+h
+1280
+i_title
+"0"
+i_description
+"0"
+i_price
+"0"
+fId
+"AgACAgIAAxkBAAIJ02WX9RvplrpSQ5C4rLDpjzYLtP65AAJP1DEb11rASLfbRcwx2X1oAQ…"
+fUnicId
+"AQADT9QxG9dawEh-"
+title
+"MINATO UZUNAKI"
+description
+"Дизайн: Minato Uzunaki
+Размер: 177х102 мм"
+price
+1300
