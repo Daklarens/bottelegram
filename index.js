@@ -51,7 +51,7 @@ bot.on('/dellItem', async msg =>{
     const uid = msg.chat.id
     const idItem = Number(splt[1])
     const otvet = await serv.dellItem(uid,idItem)
-    return bot.sendMessage(`Всего товаров: `)
+    return bot.sendMessage(uid,`Всего товаров: ${otvet}`)
 
 
 })
