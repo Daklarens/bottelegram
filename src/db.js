@@ -7,8 +7,6 @@ const connect = async () =>{
     try {
         await MongoDBclient.connect()
         console.log("Успешно подключились к базе данных")
-        await MongoDBclient.close()
-        console.log("Закрыли подключение")
         return true
     } catch (e) {
         console.log(e)
@@ -24,7 +22,6 @@ const connect = async () =>{
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
         await employees.insertOne(data)
  
-        await MongoDBclient.close()
         console.log("Данные внесены! Отключение от базы")
         return true
     } catch (e) {
@@ -40,7 +37,7 @@ const connect = async () =>{
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
         await employees.insertMany(data)
  
-        await MongoDBclient.close()
+      
         console.log("Данные внесены! Отключение от базы")
     } catch (e) {
         console.log(e)
@@ -55,7 +52,6 @@ const connect = async () =>{
         const AllDocuments = await MongoDBclient.db(process.env.NAMEDB).collection(coll).find(data).toArray()
         console.log("Количество документов в базе данных:", AllDocuments.length)
  
-        await MongoDBclient.close()
         console.log("Отключились")
         return AllDocuments.length
     } catch (e) {
@@ -72,7 +68,6 @@ const connect = async () =>{
         const AllDocuments = await MongoDBclient.db(process.env.NAMEDB).collection(coll).find(data).toArray()
         //console.log(AllDocuments)
  
-        await MongoDBclient.close()
         return AllDocuments
     } catch (e) {
         console.log(e)
@@ -87,7 +82,6 @@ const connect = async () =>{
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
         await employees.updateOne(data, {$set:newdata})
  
-        await MongoDBclient.close()
         console.log("Закрыли подключение")
         return true
     } catch (e) {
@@ -103,7 +97,7 @@ const connect = async () =>{
         const employees = MongoDBclient.db(process.env.NAMEDB).collection(coll)
         await employees.deleteOne(data, {newdata})
  
-        await MongoDBclient.close()
+      
         console.log("Закрыли подключение")
         return true
     } catch (e) {
