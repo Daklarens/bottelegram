@@ -68,6 +68,7 @@ bot.on('callbackQuery', async(msg) => {
             const countKorz = await serv.getCountKorz(uid)
             const button = await bt.items(bot,1,countKorz)
             const item = await serv.getItem(1)
+            console.log(item)
             return  bot.editMessageMedia({media:item.fId,type:'photo',caption:`<b>${item.title}</b>\n\n${item.description}\n\n<b>Цена: ${item.price} руб.</b>`,parse_mode:'html'},{chatId:uid,messageId:las_mess, replyMarkup:button}).catch(error => console.log('Error:', error));
         break;
         case 'create':

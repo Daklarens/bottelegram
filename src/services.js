@@ -135,7 +135,7 @@ class bodyService {
     if(countItem === 0 ){
       return false
     }else{
-      if(idItem > countItem){
+      if(idItem > countItem || idItem < 0){
         const item = await db.find('catalog',{id:1})
         return item[0]
       }else{
