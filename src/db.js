@@ -50,7 +50,7 @@ const connect = async () =>{
         console.log("Подключения для уточения количества")
  
         const AllDocuments = await MongoDBclient.db(process.env.NAMEDB).collection(coll).find(data).toArray()
-        console.log("Количество документов в базе данных:", AllDocuments.length)
+        console.log("Количество документов в базе данных:", `${coll} - ${AllDocuments.length}`)
  
         console.log("Отключились")
         return AllDocuments.length
