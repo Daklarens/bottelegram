@@ -22,17 +22,17 @@ bot.on('/addAdminCode', async msg =>{
     const otvet = serv.addAdmin(msg.from,code[1])
     switch(otvet){
         case 0 :
-            return bot.sendMessage(msg.from.id,"Ошибка в обработке запроса, попробуйте позже")
+            return bot.sendMessage(msg.chat.id,"Ошибка в обработке запроса, попробуйте позже")
         break;
         case 1 :
-            bot.sendMessage(msg.from.id,"Вы внесены в список администраторов")
-            return bot.sendMessage(msg.from.id,`Напишите в ответ на это сообщение приветствующий текст который бот в дальнейшем будет использовать`, {ask: 'hello_text'})
+            bot.sendMessage(msg.chat.id,"Вы внесены в список администраторов")
+            return bot.sendMessage(msg.chat.id,`Напишите в ответ на это сообщение приветствующий текст который бот в дальнейшем будет использовать`, {ask: 'hello_text'})
         break;
         case 2 :
-            return bot.sendMessage(msg.from.id,"Вы внесены в список администраторов")
+            return bot.sendMessage(msg.chat.id,"Вы внесены в список администраторов")
         break;
         case 3 :
-            return bot.sendMessage(msg.from.id,"Вы уже Администратор")
+            return bot.sendMessage(msg.chat.id,"Вы уже Администратор")
         break;
     }
 })
