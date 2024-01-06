@@ -125,7 +125,7 @@ class bodyService {
     const count = await db.count('korzina',{uid})
     return count
   }
-  async getCountItems (uid){
+  async getCountItems (){
     const count = await db.count('catalog',{})
     return count
   }
@@ -175,7 +175,6 @@ class bodyService {
     if(isss){
       const dell = await db.deleteOne('catalog',{id:itemId})
       const dellCount = await this.generateNameItems(uid)
-      return dellCount
   
     }
   }
@@ -201,7 +200,8 @@ class bodyService {
       let z = i-1
       const newName = await db.update('catalog',{fId:data[z].fId},{id:i})
     }
-    return await this.getCountItems
+    const genCount = await this.getCountItems()
+    return genCount
   }
   
 }
